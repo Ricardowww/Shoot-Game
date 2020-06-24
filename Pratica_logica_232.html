@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prática</title>
+</head>
+<body>
+    <canvas width="600" height="400"></canvas>
+    <script>
+
+        var tela = document.querySelector("canvas");
+        var pincel = tela.getContext("2d");
+
+
+        pincel.fillStyle = "cyan";
+        pincel.fillRect(0,0,600,400);
+
+        
+
+        function grama(h1,h2,l) {
+
+            for(var g = 0; g < 600; g= g+l) {
+                pincel.fillStyle = "green";
+                pincel.beginPath();
+                pincel.moveTo(g,h1);
+                pincel.lineTo(g+2,h2);
+                pincel.lineTo(g+4,h1);
+                pincel.fill();
+
+            }
+        }
+        grama(400,359,4);
+        function fazCirculo(x, y, raio, cor){
+
+            pincel.fillStyle = cor;
+            pincel.beginPath();
+            pincel.arc(x, y, raio, 0, 2*3.1468);
+            pincel.fill();
+        }
+
+        function limpaTela(){
+            pincel.clearRect(0, 0, 600, 400);
+        } 
+
+        function posicao (maximo){
+
+          return Math.floor(Math.random()*maximo)
+        }
+        var raio= 7
+        var xPosicao;
+        var yPosicao;
+        function desenhaAlvo(x,y){
+
+            fazCirculo(x, y, raio*5, "red");
+            fazCirculo(x, y, raio*4, "white");
+            fazCirculo(x, y, raio*3, "red");
+            fazCirculo(x, y, raio*2, "white");
+            fazCirculo(x, y, raio*1, "red");
+
+        }
+
+        function novaPosicao() {
+            limpaTela();
+            xPosicao = posicao(600);
+            yPosicao = posicao(400);
+            desenhaAlvo(xPosicao,yPosicao);
+        }
+        setInterval(novaPosicao,1000);
+        grama(400,359,4);
+
+        function dispara(evento) {
+            var x = evento.pageX - tela.offsetLeft;
+            var y = evento.pageY - tela.offsetTop;
+
+            if ((x > xPosicao - raio && x < xPosicao + raio) && (y > yPosicao - raio) && (y < yPosicao + raio)) {
+                alert("Acertou!");
+            }
+
+
+        }
+
+        tela.onclick= dispara;
+    </script>
+</body>
+</html>
